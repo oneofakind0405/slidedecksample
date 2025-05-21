@@ -1,235 +1,164 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const slides = document.querySelectorAll('.slide');
-    const prevButton = document.getElementById('prev-slide');
-    const nextButton = document.getElementById('next-slide');
-    let currentSlideIndex = 0;
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>인터스텔라와 시간의 비밀 - 일반 상대성 이론</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Include D3.js library -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+<body>
+    <div id="presentation-container">
+        <div class="slide active" id="slide-1">
+            <div class="slide-header">[마크의 지식서재] 로고</div>
+            <h1>인터스텔라와 시간의 비밀</h1>
+            <p>일반 상대성 이론으로 풀어보는 시간의 미스터리</p>
+            <img src="https://i.ytimg.com/vi/2rArbW721kY/maxresdefault.jpg" alt="Astronaut in space" class="slide-image-large">
+            <footer>슬라이드 1 / 10</footer>
+        </div>
 
-    function updateSlideCount() {
-        slides.forEach((slide, index) => {
-            const footer = slide.querySelector('footer');
-            if (footer) {
-                footer.textContent = `슬라이드 ${index + 1} / ${slides.length}`;
-            }
-        });
-    }
+        <div class="slide" id="slide-2">
+            <div class="slide-header">[마크의 지식서재] 로고</div>
+            <h2>영화 '인터스텔라'의 궁금증</h2>
+            <div class="content-columns">
+                <div>
+                    <p>영화 인터스텔라에서 주인공이 밀러 행성에 착륙했을 때,</p>
+                    <p>밀러 행성에서의 1시간은 지구에서의 7년과 같았습니다.</p>
+                    <p>주인공이 지구로 돌아왔을 때 딸은 할머니가 되어 있었죠.</p>
+                    <p><strong>왜 시간이 다르게 흐르는 걸까요?</strong></p>
+                </div>
+                <img src="https://via.placeholder.com/400x300/cccccc/000000?text=Interstellar+Time+Dilation" alt="Interstellar scene" class="slide-image">
+            </div>
+            <footer>슬라이드 2 / 10</footer>
+        </div>
 
-    function showSlide(index) {
-        slides.forEach((slide, i) => {
-            slide.classList.remove('active');
-            if (i === index) {
-                slide.classList.add('active');
-            }
-        });
-        // Disable/enable buttons
-        prevButton.disabled = index === 0;
-        nextButton.disabled = index === slides.length - 1;
-    }
+        <div class="slide" id="slide-3">
+            <div class="slide-header">[마크의 지식서재] 로고</div>
+            <h2>시간과 중력: 아인슈타인의 상대성 이론</h2>
+            <p>그 이유는 바로 <strong>시간이 중력의 영향</strong>을 받기 때문입니다.</p>
+            <p>이는 아인슈타인의 <strong>일반 상대성 이론</strong>에서 비롯된 말인데요.</p>
+            <div class="content-columns">
+                <div>
+                    <h3>상대성 이론의 두 가지</h3>
+                    <ul>
+                        <li><strong>특수 상대성 이론:</strong> 빛의 속도와 시간/공간의 관계 (등속 운동)</li>
+                        <li><strong>일반 상대성 이론:</strong> 중력과 시간/공간의 관계 (가속 운동, 중력)</li>
+                    </ul>
+                    <p class="highlight">오늘은 일반 상대성 이론에 초점을 맞춥니다!</p>
+                </div>
+                <img src="https://via.placeholder.com/300x300/cccccc/000000?text=Einstein" alt="Einstein" class="slide-image-small">
+            </div>
+            <footer>슬라이드 3 / 10</footer>
+        </div>
 
-    prevButton.addEventListener('click', () => {
-        if (currentSlideIndex > 0) {
-            currentSlideIndex--;
-            showSlide(currentSlideIndex);
-        }
-    });
+        <div class="slide" id="slide-4">
+            <div class="slide-header">[마크의 지식서재] 로고</div>
+            <h2>시공간 (Spacetime)이란?</h2>
+            <p>일반 상대성 이론에 따르면, 시간과 공간은 별개의 것이 아닙니다.</p>
+            <p>서로 영향을 주고받는 하나의 개념, 바로 <strong>시공간</strong>입니다.</p>
+            <p>시공간은 우리 눈에 보이지 않지만, 우주 어디에나 존재합니다.</p>
+            <div id="spacetime-fabric-viz" class="visualization">
+                <!-- D3.js will render a basic grid here -->
+            </div>
+            <p class="caption">위는 시공간을 2차원 평면으로 단순화한 개념도입니다.</p>
+            <footer>슬라이드 4 / 10</footer>
+        </div>
 
-    nextButton.addEventListener('click', () => {
-        if (currentSlideIndex < slides.length - 1) {
-            currentSlideIndex++;
-            showSlide(currentSlideIndex);
-        }
-    });
-    
-    updateSlideCount();
-    showSlide(currentSlideIndex);
-
-    // D3.js Visualization Stubs
-    // Slide 4: Basic Spacetime Fabric
-    const spacetimeViz = d3.select("#spacetime-fabric-viz");
-    if (!spacetimeViz.empty()) {
-        const svgWidth = spacetimeViz.node().clientWidth;
-        const svgHeight = spacetimeViz.node().clientHeight;
-        const svg = spacetimeViz.append("svg")
-            .attr("width", svgWidth)
-            .attr("height", svgHeight);
-
-        const gridSize = 20;
-        for (let i = 0; i <= svgWidth; i += gridSize) {
-            svg.append("line")
-               .attr("x1", i).attr("y1", 0)
-               .attr("x2", i).attr("y2", svgHeight)
-               .attr("stroke", "#4a4a68").attr("stroke-width", 0.5);
-        }
-        for (let i = 0; i <= svgHeight; i += gridSize) {
-            svg.append("line")
-               .attr("x1", 0).attr("y1", i)
-               .attr("x2", svgWidth).attr("y2", i)
-               .attr("stroke", "#4a4a68").attr("stroke-width", 0.5);
-        }
-    }
-
-    // Slide 5: Mattress and Bowling Ball
-    const mattressViz = d3.select("#mattress-bowlingball-viz");
-    let fabricSVG, fabricLines, massCircle;
-    if (!mattressViz.empty()) {
-        const svgWidth = mattressViz.node().clientWidth;
-        const svgHeight = mattressViz.node().clientHeight;
-        fabricSVG = mattressViz.append("svg")
-            .attr("width", svgWidth)
-            .attr("height", svgHeight);
+        <div class="slide" id="slide-5">
+            <div class="slide-header">[마크의 지식서재] 로고</div>
+            <h2>중력 = 시공간의 왜곡 (굴곡)</h2>
+            <p>상대성 이론에 따르면 중력은 <strong>시공간의 굴곡(왜곡)</strong>에 의해 발생합니다.</p>
+            <p>마치 평평한 침대 매트리스 위에 무거운 볼링공을 올려놓는 것과 같아요.</p>
+            <div id="mattress-bowlingball-viz" class="visualization">
+                <!-- D3.js visualization of mattress and bowling ball -->
+            </div>
+            <button onclick="addMassToFabric()">볼링공 놓기</button>
+            <button onclick="resetFabric()">초기화</button>
+            <p class="caption">질량이 있는 물체는 주변 시공간을 휘게 만듭니다. 질량이 클수록 더 많이 휘어집니다.</p>
+            <footer>슬라이드 5 / 10</footer>
+        </div>
         
-        const gridSize = 20;
-        const numX = Math.floor(svgWidth / gridSize);
-        const numY = Math.floor(svgHeight / gridSize);
-        let points = [];
+        <div class="slide" id="slide-6">
+            <div class="slide-header">[마크의 지식서재] 로고</div>
+            <h2>시공간의 왜곡이 중력을 만드는 방법</h2>
+            <p>휘어진 시공간 위에서 다른 물체들은 어떻게 움직일까요?</p>
+            <p>볼링공 때문에 움푹 파인 매트리스 주변에 가벼운 구슬을 굴려보면, 구슬은 볼링공 쪽으로 빨려 들어갑니다.</p>
+            <p>이것이 바로 <strong>중력</strong>입니다! 물체는 휘어진 시공간의 경로를 따라갈 뿐입니다.</p>
+            <div id="gravity-marbles-viz" class-="visualization">
+                <!-- D3.js: marbles rolling into the dent -->
+            </div>
+             <button onclick="addMarbles()">구슬 굴리기</button>
+            <p class="caption">태양이 지구를 당기는 것도, 지구가 달을 당기는 것도 시공간의 왜곡 때문입니다.</p>
+            <footer>슬라이드 6 / 10</footer>
+        </div>
 
-        for (let y = 0; y <= numY; y++) {
-            for (let x = 0; x <= numX; x++) {
-                points.push({ x: x * gridSize, y: y * gridSize, ox: x * gridSize, oy: y * gridSize });
-            }
-        }
+        <div class="slide" id="slide-7">
+            <div class="slide-header">[마크의 지식서재] 로고</div>
+            <h2>중력과 시간의 흐름</h2>
+            <p>아인슈타인은 시간과 공간이 시공간으로 얽혀있다고 했죠?</p>
+            <p><strong>중력이 강할수록 (시공간이 더 많이 왜곡될수록) 시간은 더 느리게 흐릅니다.</strong></p>
+            <p>매트리스 비유: 평평한 곳을 지나는 것보다 움푹 파인 곳을 지나는 것이 더 오래 걸리는 것과 유사합니다.</p>
+            <div class="content-columns">
+                <div id="time-dilation-clocks-viz" class="visualization">
+                    <!-- D3.js visualization of two clocks, one in stronger gravity -->
+                    <div class="clock-container">
+                        <p>약한 중력 (빠른 시간)</p>
+                        <div class="clock" id="clock-weak">00:00:00</div>
+                    </div>
+                    <div class="clock-container">
+                        <p>강한 중력 (느린 시간)</p>
+                        <div class="clock" id="clock-strong">00:00:00</div>
+                    </div>
+                </div>
+            </div>
+             <button onclick="startTimeDilationDemo()">시간 흐름 비교 시작</button>
+            <footer>슬라이드 7 / 10</footer>
+        </div>
 
-        fabricLines = fabricSVG.append("g");
+        <div class="slide" id="slide-8">
+            <div class="slide-header">[마크의 지식서재] 로고</div>
+            <h2>다시 '인터스텔라'로!</h2>
+            <p>밀러 행성은 거대한 블랙홀(가르강튀아) 근처에 있어 중력이 엄청나게 강했습니다.</p>
+            <p>따라서 시공간이 극도로 왜곡되었고, 밀러 행성에서의 시간은 매우 느리게 흘렀던 것입니다.</p>
+            <ul>
+                <li><strong>밀러 행성 (강한 중력):</strong> 주인공의 시간 = 몇 시간</li>
+                <li><strong>우주선/지구 (상대적으로 약한 중력):</strong> 다른 사람들의 시간 = 수십 년</li>
+            </ul>
+            <img src="https://via.placeholder.com/400x250/cccccc/000000?text=Miller's+Planet" alt="Miller's Planet" class="slide-image">
+            <footer>슬라이드 8 / 10</footer>
+        </div>
 
-        function drawFabric(currentPoints) {
-            fabricLines.selectAll("*").remove(); // Clear previous lines
-            // Horizontal lines
-            for (let y = 0; y <= numY; y++) {
-                for (let x = 0; x < numX; x++) {
-                    fabricLines.append("line")
-                        .attr("x1", currentPoints[y * (numX + 1) + x].x)
-                        .attr("y1", currentPoints[y * (numX + 1) + x].y)
-                        .attr("x2", currentPoints[y * (numX + 1) + (x + 1)].x)
-                        .attr("y2", currentPoints[y * (numX + 1) + (x + 1)].y)
-                        .attr("stroke", "#4a4a68").attr("stroke-width", 1);
-                }
-            }
-            // Vertical lines
-            for (let x = 0; x <= numX; x++) {
-                for (let y = 0; y < numY; y++) {
-                     fabricLines.append("line")
-                        .attr("x1", currentPoints[y * (numX + 1) + x].x)
-                        .attr("y1", currentPoints[y * (numX + 1) + x].y)
-                        .attr("x2", currentPoints[(y + 1) * (numX + 1) + x].x)
-                        .attr("y2", currentPoints[(y + 1) * (numX + 1) + x].y)
-                        .attr("stroke", "#4a4a68").attr("stroke-width", 1);
-                }
-            }
-        }
-        drawFabric(points); // Initial draw
+        <div class="slide" id="slide-9">
+            <div class="slide-header">[마크의 지식서재] 로고</div>
+            <h2>정리: 일반 상대성 이론의 핵심</h2>
+            <ol>
+                <li>시간과 공간은 <strong>시공간</strong>이라는 하나로 얽혀있다.</li>
+                <li>질량(에너지)은 주변 <strong>시공간을 왜곡</strong>시킨다.</li>
+                <li>이 왜곡된 시공간을 따라 물체가 움직이는 것이 바로 <strong>중력</strong>이다.</li>
+                <li><strong>중력이 강한 곳에서는 시간이 느리게 흐른다</strong> (시간 팽창).</li>
+            </ol>
+            <p>이것이 인터스텔라에서 시간이 다르게 흐른 이유입니다!</p>
+            <img src="https://via.placeholder.com/350x200/cccccc/000000?text=Spacetime+Summary" alt="Spacetime curvature" class="slide-image">
+            <footer>슬라이드 9 / 10</footer>
+        </div>
+        
+        <div class="slide" id="slide-10">
+            <div class="slide-header">[마크의 지식서재] 로고</div>
+            <h2>마크의 지식서재</h2>
+            <p>인생을 살아가며 한 번쯤 알아두면 좋은 지식들, 누구나 알기 쉽게 설명해 드리겠습니다.</p>
+            <p>오늘 내용이 유익했다면 구독과 좋아요 부탁드립니다!</p>
+            <img src="https://via.placeholder.com/300x300/cccccc/000000?text=Thank+You" alt="Thank you" class="slide-image-small">
+            <p class="highlight">감사합니다!</p>
+            <footer>슬라이드 10 / 10</footer>
+        </div>
 
-        window.addMassToFabric = function() {
-            if (massCircle) massCircle.remove(); // Remove old one
-            
-            const massX = svgWidth / 2;
-            const massY = svgHeight / 2;
-            const massStrength = 80; // How much it pulls
-            const massRadius = 15;
+        <div id="navigation-buttons">
+            <button id="prev-slide">이전</button>
+            <button id="next-slide">다음</button>
+        </div>
+    </div>
 
-            massCircle = fabricSVG.append("circle")
-                .attr("cx", massX)
-                .attr("cy", massY)
-                .attr("r", massRadius)
-                .attr("fill", "#9fa8da");
-
-            let newPoints = points.map(p => {
-                const dx = p.ox - massX;
-                const dy = p.oy - massY;
-                const distance = Math.sqrt(dx * dx + dy * dy);
-                if (distance === 0) return { ...p, x: p.ox, y: p.oy }; // Avoid division by zero
-                
-                // Pull points towards the mass, effect diminishes with distance
-                const pullFactor = Math.max(0, massStrength / (distance * 0.5 + massStrength * 0.1));
-                // Don't let points go inside the mass visually
-                const maxPull = Math.max(0, distance - massRadius * 0.8); 
-
-                return {
-                    ...p,
-                    x: p.ox - (dx / distance) * Math.min(maxPull, pullFactor),
-                    y: p.oy - (dy / distance) * Math.min(maxPull, pullFactor)
-                };
-            });
-            drawFabric(newPoints);
-        };
-
-        window.resetFabric = function() {
-            if (massCircle) massCircle.remove();
-            massCircle = null;
-            drawFabric(points.map(p => ({...p, x:p.ox, y:p.oy})));
-        };
-    }
-
-    // Slide 6: Gravity and Marbles (Conceptual - using existing fabric)
-    const gravityMarblesViz = d3.select("#gravity-marbles-viz");
-    if(!gravityMarblesViz.empty()){
-        // This would build on the previous visualization.
-        // For simplicity, we'll just add a text placeholder for now.
-        gravityMarblesViz.html("<p style='color:#ccc; padding:10px;'>Imagine marbles rolling on the deformed fabric above. They would follow the curves!</p>");
-        // To actually animate marbles:
-        // 1. Calculate gradient of the deformed surface.
-        // 2. Simulate marble movement based on this gradient.
-    }
-    window.addMarbles = function() {
-        if (!massCircle || !fabricSVG) {
-            alert("먼저 볼링공을 놓아 시공간을 왜곡시켜주세요.");
-            return;
-        }
-        // Add a few small "marble" circles
-        const marbleRadius = 5;
-        const massX = parseFloat(massCircle.attr("cx"));
-        const massY = parseFloat(massCircle.attr("cy"));
-
-        for (let i=0; i<3; i++) {
-            const startX = Math.random() * fabricSVG.attr("width") * 0.2 + fabricSVG.attr("width")*0.1; // Start near an edge
-            const startY = Math.random() * fabricSVG.attr("height");
-            
-            fabricSVG.append("circle")
-                .attr("class", "marble")
-                .attr("cx", startX)
-                .attr("cy", startY)
-                .attr("r", marbleRadius)
-                .attr("fill", "orange")
-                .transition()
-                .duration(2000 + Math.random()*1000)
-                .ease(d3.easeQuadIn) // Accelerate towards
-                .attr("cx", massX + (Math.random()-0.5)*30) // End up near the mass
-                .attr("cy", massY + (Math.random()-0.5)*30)
-                .remove(); // Remove after animation
-        }
-    }
-
-
-    // Slide 7: Time Dilation Clocks
-    let clockIntervalWeak, clockIntervalStrong;
-    let timeWeak = 0, timeStrong = 0;
-    const clockWeakEl = document.getElementById('clock-weak');
-    const clockStrongEl = document.getElementById('clock-strong');
-
-    function formatTime(totalSeconds) {
-        const hours = Math.floor(totalSeconds / 3600);
-        const minutes = Math.floor((totalSeconds % 3600) / 60);
-        const seconds = totalSeconds % 60;
-        return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-    }
-
-    window.startTimeDilationDemo = function() {
-        clearInterval(clockIntervalWeak);
-        clearInterval(clockIntervalStrong);
-        timeWeak = 0; timeStrong = 0;
-        clockWeakEl.textContent = formatTime(0);
-        clockStrongEl.textContent = formatTime(0);
-
-        // Weak gravity clock ticks "normally" (e.g., every 100ms in demo time)
-        clockIntervalWeak = setInterval(() => {
-            timeWeak++;
-            clockWeakEl.textContent = formatTime(timeWeak);
-        }, 100); // 1 "second" per 100ms
-
-        // Strong gravity clock ticks slower (e.g., every 200ms in demo time)
-        clockIntervalStrong = setInterval(() => {
-            timeStrong++;
-            clockStrongEl.textContent = formatTime(timeStrong);
-        }, 200); // 1 "second" per 200ms (half the speed)
-    };
-
-
-});
+    <script src="script.js"></script>
+</body>
+</html>
